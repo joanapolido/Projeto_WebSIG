@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <link rel="stylesheet" type="text/css" href="projetowebsig5.css">
+        <title>Projeto WebSIG</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" 
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin="" ></script>
+
+    
+        <script src="geojsondocs/Concelho_matosinhos3.geojson"></script>
+        <script src="geojsondocs/percurso_todo.geojson"></script>
+        <script src="geojsondocs/concelho_buffer1km2.geojson"></script>
+        <script src="geojsondocs/estab_AL_mat.geojson"></script>
+        <script src="geojsondocs/patrimonio.geojson"></script>
+        <script src="geojsondocs/servicos.geojson"></script>
+        <script src="geojsondocs/sinalizacao.geojson"></script>
+        <script src="geojsondocs/territorios_arti.geojson"></script>
+        <script src="geojsondocs/agricultura.geojson"></script>
+        <script src="geojsondocs/espacos_descobertos.geojson"></script>
+        <script src="geojsondocs/florestas.geojson"></script>
+        <script src="geojsondocs/massas_agua.geojson"></script>
+        <script src="geojsondocs/matos.geojson"></script>
+    </head>
+
+    <body>
+        <div class="base">
+        <header>
+        <h1> Joana Polido </h1>
+            <p id="geo"> Geógrafa </p>
+        <nav class="menu">
+            <ul>
+                <li><a id="a1" href="index.html"> INÍCIO </a></li>
+                <li><a id="a2" href="curriculo2.html"> CURRICULO E FORMAÇÃO</a></li>
+                <li><a id="a3" href="portfolio3.html"> PORTFÓLIO </a></li>
+                <li><a id="a4" href="trabalhos_desenvolvidos4.html"> TRABALHOS DESENVOLVIDOS </a></li>
+                <li><a id="a5" href="projetowebsig5.html"> PROJETO WEBSIG </a></li>
+                <li><a id="a6" href="contatos6.html"> CONTATO </a></li>
+            </ul>
+        </nav>
+        </header>
+        </div>
+        <h3> Caminhos de Santiago: Caminho Português da Costa - Matosinhos </h3>
+        <p id = "par"> O Caminho Português da Costa teve bastante relevância na Idade Média, pois era utilizado pelas populações costeiras. 
+            Localiza-se em território costeiro, entre o rio Douro e o rio Minho. Começa na cidade do Porto, passando por mais nove concelhos, entre os quais, Matosinhos, Vila do Conde, Póvoa de Varzim, Esposende, Viana do Castelo, Caminha, Vila Nova de Cerveira e Valença. 
+            Este caminho é considerado uma derivação do Caminho Central (Caminho Português da Costa, 2018).
+            Este tem uma distância total de 149,5 km, tem uma duração de, aproximadamente, 7 dias e tem uma dificuldade classificada como média (Caminho Português da Costa, 2018).  
+            O caminho é, habitualmente, feito a pé, mas também tem sido feito por ciclistas (Fátima Silva, Isabel Borges, 2018).
+            Para o estudo deste trabalho, vai ser tratado apenas uma parcela do percurso, mais concretamente, 
+            a passagem pelo concelho de Matosinhos. Este faz parte do distrito do Porto, localiza-se na Região Norte, 
+            na sub-região da área metropolitana do Porto. É sede de um município urbano com, aproximadamente, 60 km² de área e com, 
+            aproximadamente, 175 000 habitantes em 2011 e subdivide-se em 4 freguesias. 
+            São elas: a União de freguesias de Matosinhos e Leça da Palmeira, União de freguesias de Perafita, Lavra e Santa Cruz do Bispo, 
+            União de São Mamede de Infesta e Senhora da Hora e União de freguesias de Custóias, Leça do Balio e Guifões.
+            Limita-se a norte pelos municípios de Vila do Conde, a sul pelo Porto, a nordeste pela Maia e a oste pelo oceano Atlântico (AMPorto, 2021).</p>
+        <div id='mapDIV'>i</div>
+        <script>
+            // definiçoes do mapa
+            var map = L.map(document.getElementById('mapDIV'), { 
+                center: [41.20322,-8.64594],
+                zoom: 12
+                });
+
+            // Base map
+            var basemap =L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+                });
+                basemap.addTo(map);
+
+            // criação das camadas de sobreposição
+            // poligono matosinhos 
+            var concelho = L.geoJSON(Concelho_matosinhos3,{
+                        color: '#000',
+                        weight: 0.5
+            });
+            concelho.bindTooltip('Concelho de Matosinhos')
+            concelho.addTo(map);
+
+            // buffer 1km
+            var buffer = L.geoJSON(concelho_buffer1km2,{
+                    color: '#cf0e0e',
+                    weight: 3,
+                    dashArray: '12 8 12'
+            });
+            buffer.bindTooltip('Área envolvente - 1km')
+            buffer.addTo(map);
+            
+            // percurso completo
+            var percurso = L.geoJSON(percurso_todo, {
+                color: '#0000ff',
+                weight: 4,
+                dashArray: '12 8 12'
+            });
+            percurso.bindTooltip('Percurso Oficial')
+            percurso.addTo(map);
+
+            //COS 2018 - Matosinhos
+            //territorios artificializados 
+            var territorios_arti = L.geoJSON(territorios_arti, {
+                    color: '#000000',
+                    backgrounds: '#000000',
+                    weight: 0.5,
+            });
+            territorios_arti.bindTooltip('Territórios artificializados')
+            territorios_arti.addTo(map);
+
+            //agricultura 
+            var agricultura = L.geoJSON(agricultura, {
+                    color: '#8B4513',
+                    //backgrounds: '#8B4513',
+                    weight: 0.5,
+            });
+            agricultura.bindTooltip('Agricultura')
+            agricultura.addTo(map);
+
+            //espaços descobertos 
+            var espacos_descobertos = L.geoJSON(espacos_descobertos, {
+                    color: '#DCDCDC',
+                    //backgrounds: '#DCDCDC',
+                    weight: 0.5,
+            });
+            espacos_descobertos.bindTooltip('Espaços Descobertos')
+            espacos_descobertos.addTo(map);
+
+            //florestas
+            var florestas = L.geoJSON(florestas, {
+                    color: '#006400',
+                    //backgrounds: '#006400',
+                    weight: 0.5,
+            });
+            florestas.bindTooltip('Florestas')
+            florestas.addTo(map);
+
+            //Massas de água 
+            var massas_agua = L.geoJSON(massas_agua, {
+                    color: '#87CEFA',
+                    //backgrounds: '#006400',
+                    weight: 0.5,
+            });
+            massas_agua.bindTooltip('Massas de água')
+            massas_agua.addTo(map);
+
+            //Matos
+            var matos = L.geoJSON(matos, {
+                    color: '#964B00',
+                    //backgrounds: '#006400',
+                    weight: 0.5,
+            });
+            matos.bindTooltip('Matos')
+            matos.addTo(map);
+
+            // pontos do patrimonio 
+            var patrimonio = L.geoJSON(patrimonio, {
+                pointToLayer: function(feature, latlng) {
+                var patrimonio_icon = new L.Icon ({
+                    iconUrl:'icons/patrimonio_icon.png',
+                    iconSize:    [25, 20.5],
+                    iconAnchor:  [12, 12],
+                    popupAnchor: [6, -5]
+                    }
+                );
+                return L.marker(latlng, {icon:patrimonio_icon});
+                },
+                onEachFeature: function(feature, layer) {
+                    let tit = feature.properties.t_tulo_;
+                    let fre = feature.properties.freguesia;
+                    let end = feature.properties.Endereco;
+                    let his = feature.properties.historia;
+                    let type = feature.geometry.type;
+                    let coord = feature.geometry.coordinates
+                    layer.bindPopup ('<h4> Património </h4> <p> <strong> Nome: </strong>' + tit + '</p>  <p> <strong> Freguesia: </strong>' + fre + '</p> <p> <strong> Endereço: </strong>' + end + '</p> <p> <strong> História: </strong>' + his + '</p> <p> <strong> Coordenadas: </strong>' + coord + '</p>')
+                }}).addTo(map);
+
+            // pontos de serviço
+            var servicos = L.geoJSON(servicos, {
+                pointToLayer: function(feature, latlng) {
+                var servicos_icon = new L.Icon ({
+                    iconUrl:'icons/servicos_icon.png',
+                    iconSize:    [25, 20.5],
+                    iconAnchor:  [12, 12],
+                    popupAnchor: [6, -5]
+                    }
+                );
+                return L.marker(latlng, {icon:servicos_icon});
+                },
+                onEachFeature: function(feature, layer) {
+                    let nom = feature.properties.t_tulo_;
+                    let fre = feature.properties.freguesia;
+                    let end = feature.properties.endereco;
+                    let tip = feature.properties.servi_os;
+                    let type = feature.geometry.type;
+                    let coord = feature.geometry.coordinates
+                    layer.bindPopup ('<h4> Serviços </h4> <p> <strong> Nome: </strong>' + nom + '</p> <p> <strong> Freguesia: </strong>' + fre + '</p> <p> <strong> Endereço: </strong>' + end + '</p> <p> <strong> Tipo de Serviço: </strong>' + tip + '</p> <p> <strong> Coordenadas: </strong>' + coord + '</p>')
+                }}).addTo(map);
+
+            // pontos de sinalização
+             var sinalizacao = L.geoJSON(sinalizacao, {
+                pointToLayer: function(feature, latlng) {
+                var sinalizacao_icon = new L.Icon ({
+                    iconUrl:'icons/sinalizacao_icon.png',
+                    iconSize:    [25, 20.5],
+                    iconAnchor:  [12, 12],
+                    popupAnchor: [6, -5]
+                    }
+                );
+                return L.marker(latlng, {icon:sinalizacao_icon});
+                },
+                onEachFeature: function(feature, layer) {
+                    let tipo = feature.properties.t_tulo_;
+                    let fre = feature.properties.freguesia;
+                    let type = feature.geometry.type;
+                    let coord = feature.geometry.coordinates
+                    layer.bindPopup ('<h4> Sinalização </h4> <p> <strong> Tipo de sinalização: </strong>' + tipo + '</p> <p> <strong> Freguesia: </strong>' + fre + '</p> <p> <strong> Coordenadas: </strong>' + coord + '</p>')
+                }}).addTo(map);
+
+            // alojamento matosinhos 
+            var alojamento = L.geoJSON(estab_AL_mat, {
+                pointToLayer: function(feature, latlng) {
+                var alojamento_icon = new L.Icon ({
+                    iconUrl:'icons/alojamento_icon.png',
+                    iconSize:    [25, 20.5],
+                    iconAnchor:  [12, 12],
+                    popupAnchor: [6, -5]
+                    }
+                );
+                return L.marker(latlng, {icon:alojamento_icon});
+                },
+                onEachFeature: function(feature, layer) {
+                    let dom = feature.properties.Denominaca;
+                    let mod = feature.properties.Modalidade;
+                    let ute = feature.properties.NrUtentes;
+                    let end = feature.properties.Endereco;
+                    let fre = feature.properties.LOCALIDADE;
+                    let psot = feature.properties.CodigoPost;
+                    let type = feature.geometry.type;
+                    let email = feature.properties.Email;
+                    let coord = feature.geometry.coordinates
+                    layer.bindPopup ('<h4> Alojamento Local </h4> <p> <strong> Nome: </strong>' + dom + '</p> <p> <strong> Modalidade: </strong>' + mod + '</p><p> <strong> Capacidade: </strong>' + ute + '</p><p> <strong> Endereço: </strong>' + end + '</p><p> <strong> Freguesia: </strong>' + fre + '</p><p> <strong> Código-Postal: </strong>' + psot + '</p><p> <strong> E-mail: </strong>' + email + '</p><p> <strong> Coordenadas: </strong>' + coord + '</p>') 
+                }}).addTo(map);
+            
+
+            // cluster
+
+         
+
+            // INICIO e FIM DO PERCURSO
+            var LeafIcon = L.Icon.extend({
+                options: {
+                    iconSize:     [50, 50], 
+                    iconAnchor:   [22, 50], 
+                    popupAnchor:  [-3, -50]
+                    }                
+            });
+            var inicioIcon = new LeafIcon({iconUrl: 'imagens/locali.png'}),
+                fimIcon = new LeafIcon({iconUrl: 'imagens/locali.png'});
+
+            L.icon = function (options) {
+                return new L.Icon(options);
+            };
+
+            L.marker([41.17963, -8.62965], {icon: inicioIcon}).addTo(map).bindPopup("Início do Percurso");
+            L.marker([41.22634, -8.65775], {icon: fimIcon}).addTo(map).bindPopup("Fim do Percurso");
+        
+            // adicionar as camadas ao mapa
+            var baselayers = {
+                'OpenStreetMap': basemap
+            };
+            var overlays = {
+                'Concelho de Matosinhos': concelho,
+                'Área envolvente ao percurso (1km)': buffer,
+                'Percurso Oficial': percurso,
+
+                'Alojamento Local':alojamento,
+                'Património': patrimonio,
+                'Serviços':servicos,
+                'Sinalização': sinalizacao
+            };
+            L.control.layers(baselayers,overlays).addTo(map);
+
+            // adicionar escala 
+            var scale = L.control.scale()
+            scale.addTo(map)
+
+            // adicionar fontes 
+            map.attributionControl.addAttribution('OpenStreetMap');
+
+
+           
+
+
+            // mosteiro de leça do Balio
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.20994, -8.62363]).addTo(map);
+            //myDataPoint.bindPopup("<h4> Mosteiro de Leça do Balio </h4> <p> Património <br> <img width='300' height='150'src='mosteiro_leca.jfif' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>")
+
+            // bombeiros de leça do Balio
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.21166, -8.63261]).addTo(map);
+            //myDataPoint.bindPopup("<h4> Bombeiros Voluntários de Leça do Balio </h4> <p> Bombeiros <br> <img width='300' height='150'src='bombeiros.jpg' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>")
+            
+            // marco do couto de leça 
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.22632, -8.65766]).addTo(map);
+            //myDataPoint.bindPopup("<h4>Marco do Couto de Leça da Ordem de Malta </h4> <p> Património </p> <br> <img width='200' height='150' src='marco.jpg' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>")
+            // ponte de D.Goimil
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.21770, -8.64616]).addTo(map);
+            //myDataPoint.bindPopup("<h4>Ponte de D. Goimil</h4> <p> Património <img width='300' height='150' src='ponte.jpg' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>")
+            // igreja paroquial de santiago de custóias
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.20311, -8.64527]).addTo(map);
+            //myDataPoint.bindPopup("<h4>Igreja Paroquial de Santiago de Custóias</h4> <p> Património <img  width='300' height='150' src='igreja_custoias.jfif' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>")
+            // largo do Souto
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.20269, -8.64223]).addTo(map);
+            //myDataPoint.bindPopup("<h4>Largo do Souto</h4> <p> Património <img width='300' height='150' src='largo_souto.jfif' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>")
+            // farmacia Sousa Oliveira
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.20232, -8.64262]).addTo(map);
+            //myDataPoint.bindPopup("<h4> Farmácia Sousa Oliveira </h4> <p> Farmácias <img width='300' height='150' src='farmacia_sousa_oliveira.jpg' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>")
+            // psp
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.19954, -8.64422]).addTo(map);
+            //myDataPoint.bindPopup("<h4> PSP </h4> <p> Forças de Segurança <img width='300' height='150' src='psp.jpg' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>")
+            // hopsital Pedro Hispano
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.18200, -8.66334]).addTo(map);
+            //myDataPoint.bindPopup("<h4> Hospital Pedro Hispano </h4> <p> Hospital <img width='300' height='150' src='hospital_pedro.jpg' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>")
+            // refugio de peregrinos via portuscale
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.18836, -8.64931]).addTo(map);
+            //myDataPoint.bindPopup("<h4> Refugio de Peregrinos Via Portuscale </h4> <p> Albergue <img width='300' height='150' src='albergue.jpg' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>")
+            // cruzeiro do padrão da légua
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.19345, -8.63394]).addTo(map); 
+            //myDataPoint.bindPopup("<h4> Cruzeiro do Padrão da Légua </h4> <p> Património <img width='300' height='150' src='cruzeiro_padrao.jpg' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>")
+            // farmacia moderna 
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.19271, -8.63379]).addTo(map);  
+            //myDataPoint.bindPopup("<h4> Farmácia Moderna </h4> <p> Farmácias <img width='300' height='150' src='farmacia_padrao.png' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>")
+            // cruzeiro do bom jesus
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.19215, -8.63327]).addTo(map);
+            //myDataPoint.bindPopup("<h4> Cruzeiro de Bom Jesus </h4> <p> Património </p>")
+            
+            // supermercado lidl
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.18460, -8.63202]).addTo(map);
+            //myDataPoint.bindPopup("<h4> Supermercado - lidl </h4> <p> Serviços <img width='300' height='150' src='lidl.jfif' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>")
+            // supermercado pingo doce
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.18188, -8.62966]).addTo(map);
+            //myDataPoint.bindPopup("<h4> Supermercado - Pingo Doce </h4> <p> Serviços <img width='300' height='150' src='pingo_doce.png' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>") 
+            // supermercado continente
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.18579, -8.63120]).addTo(map);
+            //myDataPoint.bindPopup("<h4> Supermercado - Continente </h4> <p> Serviços <img width='300' height='150' src='continente.png' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>")  
+            // posto de turismo - matosinhos
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.18004, -8.69402]).addTo(map);
+            //myDataPoint.bindPopup("<h4> Posto de Turismo </h4><p> Matosinhos <img width='300' height='150' src='posto_turismo_mat.jpg' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>") 
+            // posto de turismo - leça da palmeira
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.19053, -8.70478]).addTo(map);
+            //myDataPoint.bindPopup("<h4> Posto de Turismo </h4><p> Leça da Palmeira <img width='300' height='150' src='posto_turismo_leca.jpg' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>") 
+            // sinalização mosteiro
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.20975, -8.62312]).addTo(map);
+            //myDataPoint.bindPopup("<h4> Sinalização </h4> <p> Placa Informativa </p> <p> <img width='150' height='200' src='placa_mosteiro.jpg' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>") 
+            // sinalização padrao
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.19220, -8.63379]).addTo(map);
+            //myDataPoint.bindPopup("<h4> Sinalização </h4> <p> Placa Informativa </p> <p> <img width='150' height='200' src='placa_padrao.jpg' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>") 
+            // sinalização fim do percurso 
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.22613, -8.65736]).addTo(map);
+            //myDataPoint.bindPopup("<h4> Sinalização </h4> <p> Placa Informativa </p><p> FIM DO PERCURSO </p><p> <img width='150' height='200' src='placa_fim.jpg' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>")  
+            // sinalização -largo do souto 
+            //basemap.addTo(map);
+            //var myDataPoint = L.marker([41.20254, -8.64157]).addTo(map);
+            //myDataPoint.bindPopup("<h4> Sinalização </h4> <p> Placa Informativa </p> <p><img width='150' height='200' src='placa_largo.jpg' frameborder='0' allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture allowfullscreen'></iframe></p>")
+           
+            // casa de santiago 
+            41.20225743022969, -8.645384173294723
+            // pingo doce -  sao gens 
+            41.19109306247033, -8.63630178684015
+            // mini preco - padrao 
+            41.19228794833313, -8.633453276426035
+            // mini preco - largo do souto
+            41.20162463023331, -8.646387859581697
+            // pingo doce - custoias
+            41.197755695984625, -8.637038188683762
+
+            
+</script>
+</body>
+</html>
