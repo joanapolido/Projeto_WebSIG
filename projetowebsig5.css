@@ -1,0 +1,125 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family:Georgia, 'Times New Roman', Times, serif
+}
+.container {
+
+    position: relative;
+    background: lightblue;
+}
+.navbar {
+    width: 90%;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: auto;
+}
+.logo img {
+    width: 80px;
+    cursor: pointer;
+    margin: 35px 0;
+}
+nav ul li {
+    list-style: none;
+    display: inline-block;
+    margin-right: 5px;
+}
+nav ul li a{
+    text-decoration: none;
+    color: white;
+    font-size: 13px;
+    padding: 5px 2px;
+}
+nav ul li a:hover{
+    color: #fff;
+    border-bottom: 3px solid lightgrey;
+}
+.content-row{
+    width: 85%;
+    display: flex;
+    align-items: center;
+    margin: auto;
+}
+.left-col, .right-col {
+    flex-basis: 50%;   
+}
+.left-col {
+    padding: 50px 0;
+}
+.right-col img {
+    width: 80%;
+    margin-top: 60px;
+    margin-left: 50px;
+}
+
+h2 {
+    font-size: 40px;
+    color: #fff;
+    letter-spacing: 2px;
+}
+h1 {
+    font-size: 30px;
+    color: #fff;
+    letter-spacing: 2px;
+}
+hr {
+    width: 160px;
+    height: 4px;
+    background: lightgrey;
+    margin: 20px 0;
+    border: none;
+}
+p{
+    color:#999;
+    margin: 30px 0;
+    font-size: 14px;
+    line-height: 22px;
+    text-align: justify;
+}
+.a {
+    text-align: left;
+    position: relative;
+    left:50px;
+}
+.b {
+    text-align: left;
+}
+.b {
+    margin-left:20px;
+    border:grey solid 4px;
+    background-color:white;
+    padding: 5px;
+}
+#mapDIV{
+    height: 500px;
+    width: 1150px;
+    border: solid 1px black;
+    margin-left: 50px;
+}
+#par {
+    font-size: 15px;
+    text-align: justify;
+    padding: 15px;
+}
+.social-links{
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.social-links img{
+    width: 30px;
+    display: block;
+    margin:30px 0;
+}
+.legend {
+    padding: 6px 6px 6px 6px;
+    color: #000033;
+    background: #fff;
+    border-left:5px solid #666666;
+    border-right:5px solid #666666;
+    border-top:5px solid #666666;
+    border-bottom:5px solid #666666
+}
+
